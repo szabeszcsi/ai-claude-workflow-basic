@@ -1,0 +1,82 @@
+{
+  "name": "AI Development Sandbox",
+  
+  // Base image - minimal Ubuntu, add what you need via features
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  
+  // Features - add/remove based on your project needs
+  // See: https://containers.dev/features
+  "features": {
+    // Python - adjust version as needed
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.12"
+    },
+    // Node.js - required for Claude Code CLI
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    },
+    // Git - usually needed
+    "ghcr.io/devcontainers/features/git:1": {}
+    
+    // Uncomment features you need:
+    // "ghcr.io/devcontainers/features/dotnet:1": { "version": "8.0" },
+    // "ghcr.io/devcontainers/features/go:1": { "version": "latest" },
+    // "ghcr.io/devcontainers/features/rust:1": { "version": "latest" },
+    // "ghcr.io/devcontainers/features/docker-in-docker:1": {},
+    // "ghcr.io/devcontainers/features/azure-cli:1": {},
+    // "ghcr.io/devcontainers/features/powershell:1": {}
+  },
+  
+  // VS Code customizations
+  "customizations": {
+    "vscode": {
+      // Extensions to install in container
+      "extensions": [
+        // Python
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        
+        // General
+        "esbenp.prettier-vscode",
+        "streetsidesoftware.code-spell-checker"
+        
+        // Uncomment extensions you need:
+        // "ms-dotnettools.csharp",
+        // "dbaeumer.vscode-eslint",
+        // "ms-azuretools.vscode-docker"
+      ],
+      
+      // VS Code settings
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        "files.trimTrailingWhitespace": true
+      }
+    }
+  },
+  
+  // Commands to run after container creation
+  "postCreateCommand": "pip install --upgrade pip && ([ -f requirements.txt ] && pip install -r requirements.txt || echo 'No requirements.txt') && npm install -g @anthropic-ai/claude-code && echo '✅ Setup complete! Run: claude auth login'",
+  
+  // Command to run each time container starts
+  "postStartCommand": "echo '🔒 AI Sandbox Active - Host filesystem protected (except project folder)'",
+  
+  // Run as non-root user
+  "remoteUser": "vscode",
+  
+  // Mount settings (default is fine for most cases)
+  // "mounts": [],
+  
+  // Environment variables
+  "containerEnv": {
+    // Add env vars if needed
+    // "MY_VAR": "value"
+  },
+  
+  // Ports to forward (uncomment if needed)
+  // "forwardPorts": [3000, 8000, 8080],
+  
+  // Features that require elevated permissions
+  "privileged": false
+}
